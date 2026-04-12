@@ -5,13 +5,12 @@ const app = express();
 app.use(express.json());
 
 // --- CONFIGURATION ---
-// Gamit na ang bagong token mo na valid for 2 months!
-const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRG6ZA3bub2f3vUQ586ALN1EZAQQnhBZC0cLLZAcJsFklCVhfxJYMddPnaJEP1YUNBZAxWPHWSFukpMHsXn7C42WemTHWjiDCVaANEyyGR5n99idZBmAenZCAvDJZBk17ZBcnFSFatIq1unuBuMcqtGhnLnnGZC3sJnOOnhbjqul1wbSkoR3iuBah6Sm6BQXT59Hwoq';
+const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRCkSoZBBq3M8JwY57H0H5C1jSL0RIXMhBDmCnY4gpvAbGLAM5msZBo7SO5fci15ZAHXjy2dx17zU5ehRpVfqOgehq45PGF8rpnp3PnhtvowKhpg614caO5f1maAeLxTveIudCWKMIafRMIDTYNrZCe5QOrpojHmqzdIkcZCKSmyiu569pSTrMQeRpUWxJnFzENHNEgb9M8fqLLckYTXMcKxfrZC9sVvkOlhckIIcAiuKV916OTZAZCLSeEe1dZCfhBmRb04YLQwD1SiMmmT4gkuDL4PAzi5EZD';
 const VERIFY_TOKEN = 'Chemico@005';
 
 // Root Route
 app.get('/', (req, res) => {
-    res.send('Sweet Cola Autobot is Live and Smart! 🧖‍♂️🇸🇦');
+    res.send('Sweet Cola Autobot is Live! 🧖‍♂️🇸🇦');
 });
 
 // 1. WEBHOOK VERIFICATION
@@ -44,7 +43,7 @@ app.post('/webhook', async (req, res) => {
 
             let reply_text = "";
 
-            // --- SWEET COLA SMART LOGIC ---
+            // --- SWEET COLA OFFICIAL BOT LOGIC ---
             if (msg_body.includes("hi") || msg_body.includes("hello") || msg_body.includes("kumusta") || msg_body.includes("marhaba")) {
                 reply_text = "╔═════════════════════╗\n        SWEET COLA WELLNESS SPA\n                  Riyadh - Exit 9\n╚═════════════════════╝\n\nHi, I’m 🪷 *Cola* 🪷. Welcome to Sweet Cola Massage! ✨\nHow can I help you today?\n\nمرحباً! أنا كولا. كيف يمكنني مساعدتك؟";
             } 
@@ -52,7 +51,7 @@ app.post('/webhook', async (req, res) => {
                 reply_text = "✨ *SERVICES & RATES* ✨\n\n💲 *150 SR – 45 Minutes*\n💆‍♂️ Thai / Swedish / Oil Massage\n🛁 Moroccan Bath (Skin Cleanse)\n\n⭐ *Premium Spa Package – 450 SAR*\n(2h 30m – includes Moroccan bath, hot stone, manicure & pedicure)\n\nتبدأ خدماتنا من ١٥٠ ريالاً. الباقة المميزة بـ ٤٥٠ ريالاً.";
             }
             else if (msg_body.includes("extra") || msg_body.includes("plus")) {
-                // Ang sikat na "Pakipot" reply 🙄
+                // PAKIPOT VERSION
                 reply_text = "🙄🙄🙄\n\nالأمر يعتمد على الهدية وكرمك عند الحضور للمشغل. 😉✨";
             }
             else if (msg_body.includes("location") || msg_body.includes("saan") || msg_body.includes("address") || msg_body.includes("ishbiliyah")) {
@@ -62,10 +61,11 @@ app.post('/webhook', async (req, res) => {
                 reply_text = "⏰ *BUSINESS HOURS*\nWe are open from **11:00 AM to 9:00 PM**.\n\nنحن متاحون من الساعة ١١ صباحاً حتى ٩ مساءً.";
             }
             else {
-                reply_text = "Thank you for contacting *Sweet Cola Wellness*! 🪷\n\nWe received your message: \"" + message.text.body + "\". Please wait, we will reply shortly. Insha'Allah.\n\nشكراً لتواصلكم معنا. سنرد عليك قريباً إن شاء الله.";
+                // ESCALATE TO HUMAN (ENGLISH & ARABIC)
+                reply_text = "I'm sorry, I didn't quite catch that. 🪷 For more personalized assistance or 'fresh' updates, please chat with our specialist here:\n\n👉 https://wa.me/966560958975\n\n------------------\n\nعذراً، لم أفهم طلبك جيداً. 🪷 للمزيد من المساعدة الشخصية أو التحدث مع المختص مباشرة، يرجى الضغط على الرابط التالي:\n\n👉 https://wa.me/966560958975";
             }
 
-            // Send Response back to WhatsApp
+            // Send Request to Meta
             await axios({
                 method: "POST",
                 url: `https://graph.facebook.com/v18.0/${phone_number_id}/messages?access_token=${PAGE_ACCESS_TOKEN}`,
@@ -76,6 +76,7 @@ app.post('/webhook', async (req, res) => {
                 },
                 headers: { "Content-Type": "application/json" },
             });
+            console.log("Reply sent successfully to " + from);
         }
         res.sendStatus(200);
     } catch (err) {
