@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // --- CONFIGURATION ---
-const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRFCpGZBqRYQmqtUZB0eZClFZBxoWbuVU502vMMZAqJUS1X2ZBNa5lbtVD4LSl91uL6ZCN6DPE0b1KaN9Jp4ZB3EZCUVz5q6AJJuJ65FbjtSalvumrRBL4lLVggwWDibfoEIZBKmezd435EClii58TENK8Ktutk1OlCBsBMTV4zofiZCOdSufZAp2wkf2ybwT8MOipGZBWOgBOj37bJGFjYDd5vOGefr9tiVZBCLXoZCtkOn19HubV8PZBr1ntIkGZCgrYOGOCYg9WZBzaaAonUg3DMiFsv58PbCD3qpQZDZD'
+const PAGE_ACCESS_TOKEN = 'Chemico@005'; // <--- Replace this with your Meta Token
 const VERIFY_TOKEN = 'Chemico@005'; 
 
 // 1. WEBHOOK VERIFICATION
