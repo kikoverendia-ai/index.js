@@ -4,9 +4,10 @@ const app = express();
 
 app.use(express.json());
 
-// --- CONFIGURATION (UPDATED NUMBER & TOKENS) ---
+// --- CONFIGURATION ---
 const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRAc6CX9cn3uqTHdhMpvLRsIXYCZAZAcsmO3SITlFuxoClDm4PVdo7MxXJbvI71ZBjFSc1HZCJ9CMCEZC9q80C0ZCBXgTXRABZCKIPBMrFUiVU5BqsWoSjegLU9gdCb7sAERK79zsyDhvRhTomzNvw6oFYIcZBY9zUZAIXXT9AXDTqQZCYRNvREzDvJdgZDZD';
 const VERIFY_TOKEN = 'Chemico@004';
+const LOGO_URL = 'https://hotcola.net/wp-content/uploads/2024/03/cropped-sweet-cola-logo.png'; // Link ng Gold Logo mo
 
 app.get('/', (req, res) => res.send('Sweet Cola Premium Bot is Live! 🧖‍♂️🇸🇦'));
 
@@ -23,63 +24,90 @@ app.get('/webhook', (req, res) => {
 app.post('/webhook', async (req, res) => {
     try {
         const body = req.body;
-        if (body.object !== 'whatsapp_business_account') return res.sendStatus(404);
-
         const entry = body.entry?.[0];
         const change = entry?.changes?.[0]?.value;
         const message = change?.messages?.[0];
 
-        if (message && message.text) {
+        if (message) {
             const phone_number_id = change.metadata.phone_number_id;
             const from = message.from;
-            const input = message.text.body.toLowerCase();
-            let reply_text = "";
+            
+            let input = "";
+            if (message.type === 'text') {
+                input = message.text.body.toLowerCase();
+            } else if (message.type === 'interactive') {
+                input = message.interactive.button_reply.id;
+            }
 
-            // --- PRIVATE / SENSITIVE KEYWORDS ---
-            const privateKeywords = ["pic", "picture", "photo", "body", "sex", "pussy", "vagina", "dick", "naked", "bold", "video", "صورة", "جسم", "جنس"];
-            const isPrivateRequest = privateKeywords.some(keyword => input.includes(keyword));
+            let responseData = null;
 
-            if (isPrivateRequest) {
-                reply_text = "For these requests and private details, please talk to our specialist directly to get 'fresh' information:\n\n👉 https://wa.me/966560958973\n\n------------------\n\nلهذه الطلبات والتفاصيل الخاصة، يرجى التحدث مع المختص مباشرة:\n\n👉 https://wa.me/966560958973";
+            // --- START MESSAGE (WITH LOGO & BUTTONS) ---
+            if (input.includes("hi") || input.includes("hello") || input.includes("start") || input.includes("marhaba")) {
+                responseData = {
+                    messaging_product: "whatsapp",
+                    recipient_type: "individual",
+                    to: from,
+                    type: "interactive",
+                    interactive: {
+                        type: "button",
+                        header: {
+                            type: "image",
+                            image: { link: LOGO_URL }
+                        },
+                        body: { text: "Welcome to *Sweet Cola Wellness Spa*! 🪷\n\nExperience the best massage in Riyadh. How can we help you today?\n\nمرحباً بك في سويت كولا سبا! كيف يمكننا مساعدتك اليوم؟" },
+                        action: {
+                            buttons: [
+                                { type: "reply", reply: { id: "btn_price", title: "View Prices 💰" } },
+                                { type: "reply", reply: { id: "btn_loc", title: "Location 📍" } },
+                                { type: "reply", reply: { id: "btn_admin", title: "Talk to Human 📱" } }
+                            ]
+                        }
+                    }
+                };
             }
-            // GREETINGS
-            else if (input.includes("hi") || input.includes("hello") || input.includes("marhaba") || input.includes("سلام")) {
-                reply_text = "Welcome to *Sweet Cola Wellness Spa*! 🪷\nHow can we assist you today?\n\nمرحباً بك في سويت كولا سبا! كيف يمكننا مساعدتك اليوم؟";
-            }
-            // PRICE / SERVICES
-            else if (input.includes("price") || input.includes("magkano") || input.includes("service") || input.includes("how much") || input.includes("كم")) {
-                reply_text = "✨ *OUR SERVICES* ✨\n\n💆‍♂️ *Full Body Massage* – 150 SR\n🛁 *Moroccan Bath* – 150 SR\n👑 *VIP Full Package* – 450 SR\n\nتبدأ خدماتنا من ١٥٠ ريالاً. الباقة المميزة بـ ٤٥٠ ريالاً.";
-            }
-            // HADIYA / GIFT
-            else if (input.includes("hadiya") || input.includes("gift") || input.includes("tip") || input.includes("هدية")) {
-                reply_text = "🎁 *HADIYA / GIFT*\nIt is entirely **up to you, sir**. A gift is something that comes from the bottom of your heart to show appreciation for our service. 🙏✨\n\nالأمر يعتمد عليك تماماً يا سيدي. الهدية هي شيء نابع من القلب تقديرًا للخدمة.";
-            }
-            // PAYMENT
-            else if (input.includes("pay") || input.includes("payment") || input.includes("cash") || input.includes("card")) {
-                reply_text = "💳 *PAYMENT*\nWe accept Cash, Mada, and STC Pay.\n\nنقبل الدفع نقداً، بطاقة مدى، أو STC Pay.";
+            // PRICES
+            else if (input.includes("price") || input === "btn_price") {
+                responseData = {
+                    messaging_product: "whatsapp",
+                    to: from,
+                    type: "text",
+                    text: { body: "✨ *PREMIUM SERVICES* ✨\n\n💆‍♂️ *Full Body Massage* – 150 SR\n🛁 *Moroccan Bath* – 150 SR\n👑 *VIP Full Package* – 450 SR\n\n_All services include premium oils and professional therapists._" }
+                };
             }
             // LOCATION
-            else if (input.includes("location") || input.includes("saan") || input.includes("address") || input.includes("اين")) {
-                reply_text = "📍 *LOCATION*\nQQXP+G9V, Ishbiliyah, Riyadh 13251\n🌐 hotcola.net\n\nموقعنا في حي إشبيلية. الخدمة داخل المشغل فقط.";
+            else if (input.includes("location") || input === "btn_loc" || input.includes("where")) {
+                responseData = {
+                    messaging_product: "whatsapp",
+                    to: from,
+                    type: "text",
+                    text: { body: "📍 *OUR LOCATION*\n\nQQXP+G9V, Ishbiliyah, Riyadh 13251\n\nClick the link below for Google Maps:\nhttps://maps.google.com/?q=24.8021,46.7915" }
+                };
             }
-            // DEFAULT ESCALATION (966560958973)
-            else {
-                reply_text = "I'm sorry, I didn't quite catch that. For more info or booking, please chat here:\n\n👉 https://wa.me/966560958973\n\n------------------\n\nعذراً، لم أفهم طلبك جيداً. للمزيد من التفاصيل، يرجى التواصل هنا:\n\n👉 https://wa.me/966560958973";
+            // TALK TO HUMAN / SENSITIVE
+            else if (input === "btn_admin" || input.includes("pic") || input.includes("sex") || input.includes("body")) {
+                responseData = {
+                    messaging_product: "whatsapp",
+                    to: from,
+                    type: "text",
+                    text: { body: "Our specialist is ready to assist you. Click the link below to chat directly:\n\n👉 https://wa.me/966560958973\n\n_Wait for a few moments, a human will be with you._" }
+                };
             }
 
-            // SEND MESSAGE
-            await axios({
-                method: "POST",
-                url: `https://graph.facebook.com/v18.0/${phone_number_id}/messages?access_token=${PAGE_ACCESS_TOKEN}`,
-                data: { messaging_product: "whatsapp", to: from, text: { body: reply_text } },
-                headers: { "Content-Type": "application/json" },
-            });
+            if (responseData) {
+                await axios({
+                    method: "POST",
+                    url: `https://graph.facebook.com/v18.0/${phone_number_id}/messages?access_token=${PAGE_ACCESS_TOKEN}`,
+                    data: responseData,
+                    headers: { "Content-Type": "application/json" },
+                });
+            }
         }
         res.sendStatus(200);
     } catch (err) {
+        console.error("Error:", err.response ? err.response.data : err.message);
         res.sendStatus(500);
     }
 });
 
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`Sweet Cola Final Bot Running on ${PORT}`));
+app.listen(PORT, () => console.log(`Sweet Cola Sosyal Bot Running on ${PORT}`));
