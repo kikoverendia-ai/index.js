@@ -38,34 +38,30 @@ app.post('/webhook', async (req, res) => {
 
         let responseData = null;
 
-// --- MAHUSAY GREETING (CLEAN VERSION) ---
-if (input.includes("hi") || input.includes("hello") || input.includes("مرحبا") || input.includes("start")) {
-    responseData = {
-        messaging_product: "whatsapp",
-        to: from,
-        type: "interactive",
-        interactive: {
-            type: "button",
-            body: { 
-                text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\nHow can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\nمهاربا،!! مرحبا بكم في Sweet Cola ، كيف يمكنني أن أعطيك عقلا منعشا وجسما مريحا اليوم؟ شكران حبيبي.\n\n╔══════════════════════╗\n 🪷 *SWEET COLA MASSAGE RIYADH*\n╚══════════════════════╝\n\nHi, I’m 🪷 *Cola* 🪷, a professional therapist from 🇵🇭 Philippines.\n\nمرحبا، أنا 🪷 *Cola* 🪷، معالجة تدليك محترفة من الفلبين 🇵🇭 أقدم التدليك التايلاندي، السويدي، وتدليك الزيت والحمام المغربي. ✨"
-            },
-            action: {
-                buttons: [
-                    { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
-                    { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
-                    { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
-                ]
-            }
+        // --- 1. GREETING SECTION ---
+        if (input.includes("hi") || input.includes("hello") || input.includes("مرحبا") || input.includes("start")) {
+            responseData = {
+                messaging_product: "whatsapp",
+                to: from,
+                type: "interactive",
+                interactive: {
+                    type: "button",
+                    body: { 
+                        text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\nHow can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\nمهاربا،!! مرحبا بكم في Sweet Cola ، كيف يمكنني أن أعطيك عقلا منعشا وجسما مريحا اليوم؟ شكران حبيبي.\n\n╔══════════════════════╗\n 🪷 *SWEET COLA MASSAGE RIYADH*\n╚══════════════════════╝\n\nHi, I’m 🪷 *Cola* 🪷, a professional therapist from 🇵🇭 Philippines.\n\nمرحبا، أنا 🪷 *Cola* 🪷، معالجة تدليك محترفة من الفلبين 🇵🇭 أقدم التدليك التايلاندي، السويدي، وتدليك الزيت والحمام المغربي. ✨"
+                    },
+                    action: {
+                        buttons: [
+                            { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
+                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
+                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                        ]
+                    }
+                }
+            };
         }
-    };
-}
-        // --- 2. SERVICES (With Follow-up Buttons) ---
-        // --- Eto yung block na ilalagay mo sa loob ng app.post('/webhook'...) ---
-
-else if (input === "btn_price" || input.includes("price") || input.includes("service")) {
-    
-    // Dito mo i-edit yung text sa loob ng backticks (``)
-    const serviceText = `▁ ▂ ▄ ▅ █ PREMIUM PACKAGE █ ▆ ▅ ▄ ▂ ▁
+        // --- 2. SERVICES SECTION (MAHUSAY ENCODING) ---
+        else if (input === "btn_price" || input.includes("price") || input.includes("service")) {
+            const serviceText = `▁ ▂ ▄ █ PREMIUM PACKAGE █ ▅ ▄ ▂ ▁
 
 *Premium Package Details:*
 • ⭐ Premium Spa Package – *450 SAR*
@@ -86,41 +82,10 @@ else if (input === "btn_price" || input.includes("price") || input.includes("ser
 • 💲 *150 ريال* - 45 دقيقة
 • 💆‍♂️ التدليك التايلاندي- (تمديد عميق)
 • 💆‍♀️ التدليك السويدي- (تخفيف التوتر)
-• 💧 تدليك الزيت- (استرخاء الجسم)
+• 💧 تدليك النفط- (استرخاء الجسم)
 • 🛁 الحمام المغربي- (تطهير الجلد)
 
 *What is your next choice?* 👇`;
-
-    responseData = {
-        messaging_product: "whatsapp",
-        to: from,
-        type: "interactive",
-        interactive: {
-            type: "button",
-            body: { text: serviceText }, // Gagamitin nito yung in-edit mong text sa itaas
-            action: {
-                buttons: [
-                    { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
-                    { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
-                ]
-            }
-        }
-    };
-}
-        // --- 4. BOOK NOW (With Follow-up Buttons) ---
-// ==========================================
-        // 🛡️ GUIDELINES PARA KAY BOSS (HIDDEN)
-        // 1. Ang 'else' sa dulo ang sasalo sa lahat ng maling spelling.
-        // 2. Dito babagsak ang bot kapag hindi 'Price' o 'Location' ang tinype.
-        // 3. Siguraduhin na laging may buttons dito para hindi 'Dead End'.
-        // ==========================================
-        else {
-            // Ito ang isasagot ni bot sa kahit anong maling spelling o random text
-            const catchAllText = `Maharba! Welcome to Sweet Cola! 🧖‍♂️
-How can I help you today? Please use the buttons below so I can assist you better. Shukran Habibi.
-
-مرحباً بك في سويت كولا! 🧖‍♂️
-كيف يمكنني مساعدتك اليوم؟ يرجى استخدام الأزرار أدناه لنتمكن من خدمتك بشكل أفضل. شكراً حبيبي.`;
 
             responseData = {
                 messaging_product: "whatsapp",
@@ -128,7 +93,68 @@ How can I help you today? Please use the buttons below so I can assist you bette
                 type: "interactive",
                 interactive: {
                     type: "button",
-                    body: { text: catchAllText },
+                    body: { text: serviceText },
+                    action: {
+                        buttons: [
+                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
+                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                        ]
+                    }
+                }
+            };
+        }
+        // --- 3. LOCATION SECTION ---
+        else if (input === "btn_loc" || input.includes("location")) {
+            responseData = {
+                messaging_product: "whatsapp",
+                to: from,
+                type: "interactive",
+                interactive: {
+                    type: "button",
+                    body: { 
+                        text: "📍 *LOCATION & TIMING*\n\nQQXP+G9V, Ishbiliyah, Riyadh 13251\n⏰ 11:00 am to 9:00 pm\n\nClick the link below for Google Maps:\nhttps://www.google.com/maps/contrib/111545687914972172278/reviews" 
+                    },
+                    action: {
+                        buttons: [
+                            { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
+                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                        ]
+                    }
+                }
+            };
+        }
+        // --- 4. BOOK NOW SECTION ---
+        else if (input === "btn_admin" || input.includes("book")) {
+            responseData = {
+                messaging_product: "whatsapp",
+                to: from,
+                type: "interactive",
+                interactive: {
+                    type: "button",
+                    body: { 
+                        text: "📲 *BOOK NOW*\n\nClick here to chat with our specialist and secure your slot:\nhttps://wa.me/966560958973" 
+                    },
+                    action: {
+                        buttons: [
+                            { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
+                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } }
+                        ]
+                    }
+                }
+            };
+        }
+        // --- 5. THE "BOOT" CATCH-ALL (REPAIRED & CLEAN) ---
+        else {
+            // Ito ang sasagot kapag wrong spelling ang customer
+            responseData = {
+                messaging_product: "whatsapp",
+                to: from,
+                type: "interactive",
+                interactive: {
+                    type: "button",
+                    body: { 
+                        text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\n\nI'm sorry, I didn't quite get that. Please use the buttons below to see our services, location, or to book an appointment.\n\nعذراً، لم أفهم ذلك تماماً. يرجى استخدام الأزرار أدناه لرؤية خدماتنا أو موقعنا أو لحجز موعد." 
+                    },
                     action: {
                         buttons: [
                             { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
@@ -138,4 +164,17 @@ How can I help you today? Please use the buttons below so I can assist you bette
                     }
                 }
             };
-        } // <--- Dito nagtatapos ang Catch-all block
+        }
+
+        if (responseData) {
+            await axios.post(`https://graph.facebook.com/v18.0/${phone_number_id}/messages?access_token=${PAGE_ACCESS_TOKEN}`, responseData);
+        }
+        res.sendStatus(200);
+    } catch (err) {
+        console.error("Error:", err.message);
+        res.sendStatus(200);
+    }
+});
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`Sweet Cola Pasarte Gold Finalized`));
