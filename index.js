@@ -66,7 +66,7 @@ app.post('/webhook', async (req, res) => {
                 messaging_product: "whatsapp", to: from, type: "interactive",
                 interactive: {
                     type: "button",
-                    body: { text: "📍 *LOCATION & TIMING*\n\n⏰ 11:00 am to 9:00 pm\n\nVisit our website for map & details:\nhttps://hotcola.net\n\n*Ready to proceed?* 👇" },
+                    body: { text: "📍 *LOCATION & TIMING*\n\n⏰ 11:00 am to 9:00 pm\n\nVisit our website for map & details:\nhttps://maps.app.goo.gl/u4L7LnbL7nDFNc6j9\n\n*Ready to proceed?* 👇" },
                     action: {
                         buttons: [
                             { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
