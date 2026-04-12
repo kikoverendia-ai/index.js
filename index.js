@@ -33,7 +33,7 @@ app.post('/webhook', async (req, res) => {
                 messaging_product: "whatsapp", to: from, type: "interactive",
                 interactive: {
                     type: "button",
-                    body: { text: "مهاربا،!! مرحبا بكم في Sweet Cola... \n\nWelcome to Sweet Cola Spa!\n\n╔══════════════════════════╗\n  🪷 *SWEET COLA MASSAGE RIYADH*\n╚══════════════════════════╝\n\nHi, I’m 🪷 *Cola* 🪷, a professional therapist from 🇵🇭 Philippines. Relieve stress and restore balance with our premium wellness experience. ✨" },
+                    text: "مهاربا،!! مرحبا بكم في Sweet Cola، كيف يمكنني أن أعطيك عقلاً منعشاً وجسماً مريحاً اليوم؟ شكران حبيبي.\n\nMaharba,!! Welcome to Sweet Cola, How can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\n╔══════════════════════╗\n  🪷 *SWEET COLA MASSAGE RIYADH* \n╚══════════════════════╝\n\nمرحبا، أنا 🪷 *Cola* 🪷، معالجة تدليك محترفة من الفلبين 🇵🇭 أقدم التدليك التايلاندي، السويدي، وتدليك الزيت والحمام المغربي.\n\nHi, I’m 🪷 *Cola* 🪷, a professional massage therapist from 🇵🇭 Philippines offering Thai, Swedish, Oil Massage, and Moroccan Bath. Enjoy a relaxing experience to relieve stress and refresh your body. ✨" },
                     action: {
                         buttons: [
                             { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
