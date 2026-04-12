@@ -7,7 +7,7 @@ app.use(express.json());
 const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRAc6CX9cn3uqTHdhMpvLRsIXYCZAZAcsmO3SITlFuxoClDm4PVdo7MxXJbvI71ZBjFSc1HZCJ9CMCEZC9q80C0ZCBXgTXRABZCKIPBMrFUiVU5BqsWoSjegLU9gdCb7sAERK79zsyDhvRhTomzNvw6oFYIcZBY9zUZAIXXT9AXDTqQZCYRNvREzDvJdgZDZD';
 const VERIFY_TOKEN = 'Chemico@004';
 
-app.get('/', (req, res) => res.send('Sweet Cola Pasarte Gold is Live! 🧖‍♂️🇸🇦'));
+app.get('/', (req, res) => res.send('Sweet Cola Pasarte Final is Live! 🧖‍♂️🇸🇦'));
 
 app.get('/webhook', (req, res) => {
     const mode = req.query['hub.mode'];
@@ -38,7 +38,7 @@ app.post('/webhook', async (req, res) => {
 
         let responseData = null;
 
-        // --- 1. GREETING SECTION ---
+        // --- 1. WELCOME GREETING ---
         if (input.includes("hi") || input.includes("hello") || input.includes("مرحبا") || input.includes("start")) {
             responseData = {
                 messaging_product: "whatsapp",
@@ -47,64 +47,20 @@ app.post('/webhook', async (req, res) => {
                 interactive: {
                     type: "button",
                     body: { 
-                        text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\nHow can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\nمهاربا،!! مرحبا بكم في Sweet Cola ، كيف يمكنني أن أعطيك عقلا منعشا وجسما مريحا اليوم؟ شكران حبيبي.\n\n╔══════════════════════╗\n 🪷 *SWEET COLA MASSAGE RIYADH*\n╚══════════════════════╝\n\nHi, I’m 🪷 *Cola* 🪷, a professional therapist from 🇵🇭 Philippines.\n\nمرحبا، أنا 🪷 *Cola* 🪷، معالجة تدليك محترفة من الفلبين 🇵🇭 أقدم التدليك التايلاندي، السويدي، وتدليك الزيت والحمام المغربي. ✨"
+                        text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\nHow can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\nمهاربا،!! مرحبا بكم في Sweet Cola ، كيف يمكنني أن أعطيك عقلا منعشا وجسما مريحا اليوم؟ شكرan حبيبي.\n\n╔══════════════════════╗\n 🪷 *SWEET COLA MASSAGE RIYADH*\n╚══════════════════════╝"
                     },
                     action: {
                         buttons: [
                             { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
                             { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
-                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                            { type: "reply", reply: { id: "btn_admin", title: "Escalate to Human 👤" } }
                         ]
                     }
                 }
             };
         }
-        // --- 2. SERVICES SECTION (MAHUSAY ENCODING) ---
-        else if (input === "btn_price" || input.includes("price") || input.includes("service")) {
-            const serviceText = `▁ ▂ ▄ █ PREMIUM PACKAGE █ ▅ ▄ ▂ ▁
-
-*Premium Package Details:*
-• ⭐ Premium Spa Package – *450 SAR*
-• (2h 30m – includes Moroccan bath, hot stone, manicure & pedicure)
-
-*تفاصيل الحزمة الممتازة:*
-• ⭐ بريميوم سبا حزمة - *450 ريال سعودي*
-• (2h 30m - يشمل الحمام المغربي والحجر الساخن والأظافر والباديكير)
-
-━═━═━◥ *OUR PACKAGES* ◤━═━═━
-
-• 💲 *150 SR* - 45 minutes
-• 💆‍♂️ Thai Massage - (Deep Stretch)
-• 💆‍♀️ Swedish Massage - (Stress Relief)
-• 💧 Oil Massage - (Body Relax)
-• 🛁 Moroccan Bath - (Skin Cleanse)
-
-• 💲 *150 ريال* - 45 دقيقة
-• 💆‍♂️ التدليك التايلاندي- (تمديد عميق)
-• 💆‍♀️ التدليك السويدي- (تخفيف التوتر)
-• 💧 تدليك النفط- (استرخاء الجسم)
-• 🛁 الحمام المغربي- (تطهير الجلد)
-
-*What is your next choice?* 👇`;
-
-            responseData = {
-                messaging_product: "whatsapp",
-                to: from,
-                type: "interactive",
-                interactive: {
-                    type: "button",
-                    body: { text: serviceText },
-                    action: {
-                        buttons: [
-                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
-                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
-                        ]
-                    }
-                }
-            };
-        }
-        // --- 3. LOCATION SECTION ---
-        else if (input === "btn_loc" || input.includes("location")) {
+        // --- 2. SERVICES & PRICE LIST ---
+        else if (input === "btn_price") {
             responseData = {
                 messaging_product: "whatsapp",
                 to: from,
@@ -112,19 +68,19 @@ app.post('/webhook', async (req, res) => {
                 interactive: {
                     type: "button",
                     body: { 
-                        text: "📍 *LOCATION & TIMING*\n\nQQXP+G9V, Ishbiliyah, Riyadh 13251\n⏰ 11:00 am to 9:00 pm\n\nClick the link below for Google Maps:\nhttps://www.google.com/maps/contrib/111545687914972172278/reviews" 
+                        text: "▁ ▂ ▄ ▅ █ *PREMIUM PACKAGE* █ ▆ ▅ ▄ ▂ ▁\n\n• ⭐ Premium Spa Package – *450 SAR*\n(2h 30m – includes Moroccan bath, hot stone, manicure & pedicure)\n\n━═━═━◥ *OUR PACKAGES* ◤━═━═━\n• 💲 *150 SR* - 45 minutes\n• 💆‍♂️ Thai / Swedish / Oil Massage\n• 🛁 Moroccan Bath" 
                     },
                     action: {
                         buttons: [
-                            { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
-                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
+                            { type: "reply", reply: { id: "btn_admin", title: "Escalate to Human 👤" } }
                         ]
                     }
                 }
             };
         }
-        // --- 4. BOOK NOW SECTION ---
-        else if (input === "btn_admin" || input.includes("book")) {
+        // --- 3. LOCATION & TIME ---
+        else if (input === "btn_loc") {
             responseData = {
                 messaging_product: "whatsapp",
                 to: from,
@@ -132,7 +88,27 @@ app.post('/webhook', async (req, res) => {
                 interactive: {
                     type: "button",
                     body: { 
-                        text: "📲 *BOOK NOW*\n\nClick here to chat with our specialist and secure your slot:\nhttps://wa.me/966560958973" 
+                        text: "📍 *LOCATION & TIMING*\n\n⏰ 11:00 am to 9:00 pm\n\nVisit our website for map & details:\nhttps://maps.app.goo.gl/u4L7LnbL7nDFNc6j9" 
+                    },
+                    action: {
+                        buttons: [
+                            { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
+                            { type: "reply", reply: { id: "btn_admin", title: "Escalate to Human 👤" } }
+                        ]
+                    }
+                }
+            };
+        }
+        // --- 4. ESCALATE TO HUMAN / BOOK NOW ---
+        else if (input === "btn_admin") {
+            responseData = {
+                messaging_product: "whatsapp",
+                to: from,
+                type: "interactive",
+                interactive: {
+                    type: "button",
+                    body: { 
+                        text: "📲 *ESCALATE TO HUMAN / BOOK NOW*\n\nClick here to chat with our specialist:\nhttps://wa.me/966560958973\n\nتصعيد إلى الإنسان. يرجى الضغط على الرابط أعلاه للتحدث معنا." 
                     },
                     action: {
                         buttons: [
@@ -143,9 +119,8 @@ app.post('/webhook', async (req, res) => {
                 }
             };
         }
-        // --- 5. THE "BOOT" CATCH-ALL (REPAIRED & CLEAN) ---
+        // --- 5. THE ULTIMATE CATCH-ALL ---
         else {
-            // Ito ang sasagot kapag wrong spelling ang customer
             responseData = {
                 messaging_product: "whatsapp",
                 to: from,
@@ -153,13 +128,13 @@ app.post('/webhook', async (req, res) => {
                 interactive: {
                     type: "button",
                     body: { 
-                        text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\n\nI'm sorry, I didn't quite get that. Please use the buttons below to see our services, location, or to book an appointment.\n\nعذراً، لم أفهم ذلك تماماً. يرجى استخدام الأزرار أدناه لرؤية خدماتنا أو موقعنا أو لحجز موعد." 
+                        text: "Maharba! I'm sorry, I didn't quite get that. Please use the buttons below.\n\nعذراً، لم أفهم ذلك تماماً. يرجى استخدام الأزرار أدناه." 
                     },
                     action: {
                         buttons: [
                             { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
                             { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
-                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                            { type: "reply", reply: { id: "btn_admin", title: "Escalate to Human 👤" } }
                         ]
                     }
                 }
@@ -170,11 +145,8 @@ app.post('/webhook', async (req, res) => {
             await axios.post(`https://graph.facebook.com/v18.0/${phone_number_id}/messages?access_token=${PAGE_ACCESS_TOKEN}`, responseData);
         }
         res.sendStatus(200);
-    } catch (err) {
-        console.error("Error:", err.message);
-        res.sendStatus(200);
-    }
+    } catch (err) { res.sendStatus(200); }
 });
 
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`Sweet Cola Pasarte Gold Finalized`));
+app.listen(PORT, () => console.log(`Sweet Cola Final Active`));
