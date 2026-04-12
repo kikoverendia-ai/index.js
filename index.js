@@ -108,35 +108,34 @@ else if (input === "btn_price" || input.includes("price") || input.includes("ser
     };
 }
         // --- 4. BOOK NOW (With Follow-up Buttons) ---
-        else if (input === "btn_admin" || input.includes("book")) {
+// ==========================================
+        // 🛡️ GUIDELINES PARA KAY BOSS (HIDDEN)
+        // 1. Ang 'else' sa dulo ang sasalo sa lahat ng maling spelling.
+        // 2. Dito babagsak ang bot kapag hindi 'Price' o 'Location' ang tinype.
+        // 3. Siguraduhin na laging may buttons dito para hindi 'Dead End'.
+        // ==========================================
+        else {
+            // Ito ang isasagot ni bot sa kahit anong maling spelling o random text
+            const catchAllText = `Maharba! Welcome to Sweet Cola! 🧖‍♂️
+How can I help you today? Please use the buttons below so I can assist you better. Shukran Habibi.
+
+مرحباً بك في سويت كولا! 🧖‍♂️
+كيف يمكنني مساعدتك اليوم؟ يرجى استخدام الأزرار أدناه لنتمكن من خدمتك بشكل أفضل. شكراً حبيبي.`;
+
             responseData = {
                 messaging_product: "whatsapp",
                 to: from,
                 type: "interactive",
                 interactive: {
                     type: "button",
-                    body: { 
-                        text: "📲 *BOOK NOW*\n\nClick here to chat with our specialist:\nhttps://wa.me/966560958973\n\n*Need anything else?* 👇" 
-                    },
+                    body: { text: catchAllText },
                     action: {
                         buttons: [
                             { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
-                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } }
+                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
+                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
                         ]
                     }
                 }
             };
-        }
-
-        if (responseData) {
-            await axios.post(`https://graph.facebook.com/v18.0/${phone_number_id}/messages?access_token=${PAGE_ACCESS_TOKEN}`, responseData);
-        }
-        res.sendStatus(200);
-    } catch (err) {
-        console.error("Error:", err.message);
-        res.sendStatus(200);
-    }
-});
-
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`Sweet Cola Pasarte Gold Running on ${PORT}`));
+        } // <--- Dito nagtatapos ang Catch-all block
