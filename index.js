@@ -38,27 +38,27 @@ app.post('/webhook', async (req, res) => {
 
         let responseData = null;
 
-        // --- 1. WELCOME MESSAGE (MAHUSAY VERSION) ---
-        if (input.includes("hi") || input.includes("hello") || input.includes("مرحبا") || input.includes("start")) {
-            responseData = {
-                messaging_product: "whatsapp",
-                to: from,
-                type: "interactive",
-                interactive: {
-                    type: "button",
-                    body: { 
-                        text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\nHow can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\nمهاربا،!! مرحبا بكم في Sweet Cola ، كيف يمكنني أن أعطيك عقلا منعشا وجسما مريحا اليوم؟ شكران حبيبي.\n\n╔══════════════════════╗\n 🪷 *SWEET COLA MASSAGE RIYADH*\n╚══════════════════════╝\n\nHi, I’m 🪷 *Cola* 🪷, a professional massage therapist from 🇵🇭 Philippines. Relieve stress and restore balance. ✨"
-                    },
-                    action: {
-                        buttons: [
-                            { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
-                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
-                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
-                        ]
-                    }
-                }
-            };
+// --- MAHUSAY GREETING (CLEAN VERSION) ---
+if (input.includes("hi") || input.includes("hello") || input.includes("مرحبا") || input.includes("start")) {
+    responseData = {
+        messaging_product: "whatsapp",
+        to: from,
+        type: "interactive",
+        interactive: {
+            type: "button",
+            body: { 
+                text: "Maharba! Welcome to Sweet Cola! 🧖‍♂️\nHow can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\nمهاربا،!! مرحبا بكم في Sweet Cola ، كيف يمكنني أن أعطيك عقلا منعشا وجسما مريحا اليوم؟ شكران حبيبي.\n\n╔══════════════════════╗\n 🪷 *SWEET COLA MASSAGE RIYADH*\n╚══════════════════════╝\n\nHi, I’m 🪷 *Cola* 🪷, a professional therapist from 🇵🇭 Philippines.\n\nمرحبا، أنا 🪷 *Cola* 🪷، معالجة تدليك محترفة من الفلبين 🇵🇭 أقدم التدليك التايلاندي، السويدي، وتدليك الزيت والحمام المغربي. ✨"
+            },
+            action: {
+                buttons: [
+                    { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
+                    { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
+                    { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                ]
+            }
         }
+    };
+}
         // --- 2. SERVICES (With Follow-up Buttons) ---
         else if (input === "btn_price" || input.includes("price")) {
             responseData = {
