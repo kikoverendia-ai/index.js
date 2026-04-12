@@ -60,45 +60,53 @@ if (input.includes("hi") || input.includes("hello") || input.includes("مرحب�
     };
 }
         // --- 2. SERVICES (With Follow-up Buttons) ---
-        else if (input === "btn_price" || input.includes("price")) {
-            responseData = {
-                messaging_product: "whatsapp",
-                to: from,
-                type: "interactive",
-                interactive: {
-                    type: "button",
-                    body: { 
-                        text: "✨ *OUR PREMIUM SERVICES*\n\n💵 *150 SR* – 45 Minutes\n💆‍♂️ Thai / Swedish / Oil Massage\n🛁 Moroccan Bath\n\n🌟 *Package – 450 SAR*\n(Full VIP Service 2h 30m)\n\n*Choose your next step:* 👇" 
-                    },
-                    action: {
-                        buttons: [
-                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
-                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
-                        ]
-                    }
-                }
-            };
+        // --- Eto yung block na ilalagay mo sa loob ng app.post('/webhook'...) ---
+
+else if (input === "btn_price" || input.includes("price") || input.includes("service")) {
+    
+    // Dito mo i-edit yung text sa loob ng backticks (``)
+    const serviceText = `▁ ▂ ▄ ▅ █ PREMIUM PACKAGE █ ▆ ▅ ▄ ▂ ▁
+
+*Premium Package Details:*
+• ⭐ Premium Spa Package – *450 SAR*
+• (2h 30m – includes Moroccan bath, hot stone, manicure & pedicure)
+
+*تفاصيل الحزمة الممتازة:*
+• ⭐ بريميوم سبا حزمة - *450 ريال سعودي*
+• (2h 30m - يشمل الحمام المغربي والحجر الساخن والأظافر والباديكير)
+
+━═━═━◥ *OUR PACKAGES* ◤━═━═━
+
+• 💲 *150 SR* - 45 minutes
+• 💆‍♂️ Thai Massage - (Deep Stretch)
+• 💆‍♀️ Swedish Massage - (Stress Relief)
+• 💧 Oil Massage - (Body Relax)
+• 🛁 Moroccan Bath - (Skin Cleanse)
+
+• 💲 *150 ريال* - 45 دقيقة
+• 💆‍♂️ التدليك التايلاندي- (تمديد عميق)
+• 💆‍♀️ التدليك السويدي- (تخفيف التوتر)
+• 💧 تدليك الزيت- (استرخاء الجسم)
+• 🛁 الحمام المغربي- (تطهير الجلد)
+
+*What is your next choice?* 👇`;
+
+    responseData = {
+        messaging_product: "whatsapp",
+        to: from,
+        type: "interactive",
+        interactive: {
+            type: "button",
+            body: { text: serviceText }, // Gagamitin nito yung in-edit mong text sa itaas
+            action: {
+                buttons: [
+                    { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
+                    { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
+                ]
+            }
         }
-        // --- 3. LOCATION (With Correct Ishbiliyah Map Link) ---
-        else if (input === "btn_loc" || input.includes("location")) {
-            responseData = {
-                messaging_product: "whatsapp",
-                to: from,
-                type: "interactive",
-                interactive: {
-                    type: "button",
-                    body: { 
-                        text: "📍 *LOCATION & TIMING*\n\n⏰ 11:00 am to 9:00 pm\n\nVisit our website for map & details:\nhttps://maps.app.goo.gl/u4L7LnbL7nDFNc6j9\n\n*Ready to proceed?* 👇" 
-                    },
-                    action: {
-                        buttons: [
-                            { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
-                            { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
-                        ]
-                    }
-                }
-            };
-        }
+    };
+}
         // --- 4. BOOK NOW (With Follow-up Buttons) ---
         else if (input === "btn_admin" || input.includes("book")) {
             responseData = {
