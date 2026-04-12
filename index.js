@@ -5,10 +5,10 @@ const app = express();
 app.use(express.json());
 
 // --- CONFIGURATION ---
-const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRFI8izQm2xjC43d3huDSRnAvj7Q8ZCyVghXrWTc2GV3yCJ5NEgCxIPUY4CyP8FmKRlMbclsJ3jbjk7UXmomGXMT8iMFsumy7IbpFd6V5Kcq3D7PaBa5HkjVmMARHiq98CJfjBr4lt4Pkr2typsHsyDX2nwUOy4dUd8ZBPQZCcNstVqI9e7GrYBRuNB7k788oAAGXha4SI9C7plVZCwJ013dZA3xK527TZAInPNdQFyxE17twlz1J5fGRdXa99ZBptvuD3IoJSKepm9XUkVqLg4O2Yf9a28ZD'; // <--- Palitan mo ito ng galing sa Meta
+const PAGE_ACCESS_TOKEN = 'ILAGAY_DITO_ANG_TOKEN'; // <--- Replace this with your Meta Token
 const VERIFY_TOKEN = 'Chemico@005'; 
 
-// 1. WEBHOOK VERIFICATION (Para sa Meta handshake)
+// 1. WEBHOOK VERIFICATION
 app.get('/webhook', (req, res) => {
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
@@ -24,11 +24,10 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-// 2. MESSAGE HANDLER (Dito gagana ang Autobot)
+// 2. MESSAGE HANDLER (Autobot Logic)
 app.post('/webhook', async (req, res) => {
     const body = req.body;
 
-    // Check kung message galing sa WhatsApp
     if (body.object === 'whatsapp_business_account') {
         if (body.entry && 
             body.entry[0].changes && 
@@ -39,10 +38,10 @@ app.post('/webhook', async (req, res) => {
             const from = body.entry[0].changes[0].value.messages[0].from; 
             const msg_body = body.entry[0].changes[0].value.messages[0].text.body;
 
-            console.log("May nag-chat: " + msg_body);
+            console.log("Incoming message: " + msg_body);
 
-            // --- AUTO-REPLY LOGIC ---
-            const reply_text = "Hello! Ako ang Autobot ni Kiko. Nareceive ko ang message mo: " + msg_body;
+            // --- ENGLISH AUTO-REPLY ---
+            const reply_text = "Marhaba! 🇸🇦 This is Cola's Automated Assistant. I have received your message: \"" + msg_body + "\". Insha'Allah, I will get back to you soon. Shukran!";
 
             try {
                 await axios({
@@ -55,9 +54,9 @@ app.post('/webhook', async (req, res) => {
                     },
                     headers: { "Content-Type": "application/json" },
                 });
-                console.log("Reply sent!");
+                console.log("Reply sent successfully!");
             } catch (err) {
-                console.log("Error sa pag-send: " + (err.response ? JSON.stringify(err.response.data) : err.message));
+                console.log("Error sending reply: " + (err.response ? JSON.stringify(err.response.data) : err.message));
             }
         }
         res.sendStatus(200);
