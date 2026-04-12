@@ -4,12 +4,13 @@ const app = express();
 
 app.use(express.json());
 
-// --- CONFIGURATION ---
+// --- CONFIGURATION (UPDATED NUMBER & TOKENS) ---
 const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRG6ZA3bub2f3vUQ586ALN1EZAQQnhBZC0cLLZAcJsFklCVhfxJYMddPnaJEP1YUNBZAxWPHWSFukpMHsXn7C42WemTHWjiDCVaANEyyGR5n99idZBmAenZCAvDJZBk17ZBcnFSFatIq1unuBuMcqtGhnLnnGZC3sJnOOnhbjqul1wbSkoR3iuBah6Sm6BQXT59Hwoq';
-const VERIFY_TOKEN = 'Chemico@005';
+const VERIFY_TOKEN = 'Chemico@004';
 
 app.get('/', (req, res) => res.send('Sweet Cola Premium Bot is Live! 🧖‍♂️🇸🇦'));
 
+// 1. WEBHOOK VERIFICATION
 app.get('/webhook', (req, res) => {
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
@@ -18,6 +19,7 @@ app.get('/webhook', (req, res) => {
     return res.sendStatus(403);
 });
 
+// 2. MESSAGE HANDLER
 app.post('/webhook', async (req, res) => {
     try {
         const body = req.body;
@@ -33,37 +35,36 @@ app.post('/webhook', async (req, res) => {
             const input = message.text.body.toLowerCase();
             let reply_text = "";
 
-            // --- PRIVATE / SENSITIVE KEYWORDS (AUTO-ESCALATE) ---
-            const privateKeywords = ["pic", "picture", "photo", "body", "sex", "pussy", "vagina", "dick", "naked", "bold", "video"];
+            // --- PRIVATE / SENSITIVE KEYWORDS ---
+            const privateKeywords = ["pic", "picture", "photo", "body", "sex", "pussy", "vagina", "dick", "naked", "bold", "video", "صورة", "جسم", "جنس"];
             const isPrivateRequest = privateKeywords.some(keyword => input.includes(keyword));
 
-            // 1. PRIVATE TOPICS -> DIRECT TO HUMAN
             if (isPrivateRequest) {
-                reply_text = "For these requests and private details, please talk to our specialist directly to get 'fresh' information:\n\n👉 https://wa.me/966560958975\n\n------------------\n\nلهذه الطلبات والتفاصيل الخاصة، يرجى التحدث مع المختص مباشرة:\n\n👉 https://wa.me/966560958975";
+                reply_text = "For these requests and private details, please talk to our specialist directly to get 'fresh' information:\n\n👉 https://wa.me/966560958973\n\n------------------\n\nلهذه الطلبات والتفاصيل الخاصة، يرجى التحدث مع المختص مباشرة:\n\n👉 https://wa.me/966560958973";
             }
-            // 2. GREETINGS
+            // GREETINGS
             else if (input.includes("hi") || input.includes("hello") || input.includes("marhaba") || input.includes("سلام")) {
-                reply_text = "Welcome to *Sweet Cola Wellness Spa*! 🪷\nHow can we assist you today?\n\nمرحباً بك في سويت كولا سبa! كيف يمكننا مساعدتك اليوم؟";
+                reply_text = "Welcome to *Sweet Cola Wellness Spa*! 🪷\nHow can we assist you today?\n\nمرحباً بك في سويت كولا سبا! كيف يمكننا مساعدتك اليوم؟";
             }
-            // 3. SERVICES & PRICE
+            // PRICE / SERVICES
             else if (input.includes("price") || input.includes("magkano") || input.includes("service") || input.includes("how much") || input.includes("كم")) {
                 reply_text = "✨ *OUR SERVICES* ✨\n\n💆‍♂️ *Full Body Massage* – 150 SR\n🛁 *Moroccan Bath* – 150 SR\n👑 *VIP Full Package* – 450 SR\n\nتبدأ خدماتنا من ١٥٠ ريالاً. الباقة المميزة بـ ٤٥٠ ريالاً.";
             }
-            // 4. HADIYA / GIFT (THE UP TO YOU LOGIC)
+            // HADIYA / GIFT
             else if (input.includes("hadiya") || input.includes("gift") || input.includes("tip") || input.includes("هدية")) {
-                reply_text = "🎁 *HADIYA / GIFT*\nIt is entirely **up to you, sir**. A gift is something that comes from the bottom of your heart to show appreciation for our service. 🙏✨\n\nالأمر يعتمد عليك تماماً يا سيدي. الهدية هي شيء نابع من القلب وتقديراً منك للخدمة.";
+                reply_text = "🎁 *HADIYA / GIFT*\nIt is entirely **up to you, sir**. A gift is something that comes from the bottom of your heart to show appreciation for our service. 🙏✨\n\nالأمر يعتمد عليك تماماً يا سيدي. الهدية هي شيء نابع من القلب تقديرًا للخدمة.";
             }
-            // 5. PAYMENT
+            // PAYMENT
             else if (input.includes("pay") || input.includes("payment") || input.includes("cash") || input.includes("card")) {
                 reply_text = "💳 *PAYMENT*\nWe accept Cash, Mada, and STC Pay.\n\nنقبل الدفع نقداً، بطاقة مدى، أو STC Pay.";
             }
-            // 6. LOCATION
+            // LOCATION
             else if (input.includes("location") || input.includes("saan") || input.includes("address") || input.includes("اين")) {
                 reply_text = "📍 *LOCATION*\nQQXP+G9V, Ishbiliyah, Riyadh 13251\n🌐 hotcola.net\n\nموقعنا في حي إشبيلية. الخدمة داخل المشغل فقط.";
             }
-            // 7. DEFAULT / NOT UNDERSTOOD -> ESCALATE
+            // DEFAULT ESCALATION (966560958973)
             else {
-                reply_text = "I'm sorry, I didn't quite catch that. For more info or booking, please chat here:\n\n👉 https://wa.me/966560958975\n\n------------------\n\nعذراً، لم أفهم طلبك جيداً. للمزيد من التفاصيل، يرجى التواصل هنا:\n\n👉 https://wa.me/966560958975";
+                reply_text = "I'm sorry, I didn't quite catch that. For more info or booking, please chat here:\n\n👉 https://wa.me/966560958973\n\n------------------\n\nعذراً، لم أفهم طلبك جيداً. للمزيد من التفاصيل، يرجى التواصل هنا:\n\n👉 https://wa.me/966560958973";
             }
 
             // SEND MESSAGE
