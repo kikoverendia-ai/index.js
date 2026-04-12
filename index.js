@@ -39,8 +39,8 @@ app.post('/webhook', async (req, res) => {
 
         let responseData = null;
 
-        // --- THE "CLEAN & SOSYAL" LAYOUT ---
-        if (input.includes("hi") || input.includes("hello") || input.includes("start")) {
+        // --- WELCOME MESSAGE (THE SOSYAL LAYOUT) ---
+        if (input.includes("hi") || input.includes("hello") || input.includes("start") || input.includes("مرحبا")) {
             responseData = {
                 messaging_product: "whatsapp",
                 to: from,
@@ -48,30 +48,30 @@ app.post('/webhook', async (req, res) => {
                 interactive: {
                     type: "button",
                     body: { 
-                        text: "╔══════════════════╗\n   *SWEET COLA WELLNESS SPA*\n        Riyadh - Exit 9\n╚══════════════════╝\n\n⚠️ *IMPORTANT NOTICE*\n🚫 Services are available ONLY inside the spa shop.\n\nHi, I'm 🌸 *Cola* 🌸, a professional therapist offering a relaxing wellness experience.\n\n*Timing:* 11:00 am to 9:00 pm\n\n✨ Relax • Refresh • Rejuvenate ✨"
+                        text: "مهاربا،!! مرحبا بكم في Sweet Cola، كيف يمكنني أن أعطيك عقلاً منعشاً وجسماً مريحاً اليوم؟ شكران حبيبي.\n\nMaharba,!! Welcome to Sweet Cola, How can I give you a refreshing mind and relaxing body today? Shukran Habibi.\n\n╔══════════════════════╗\n    🪷 *SWEET COLA MASSAGE RIYADH* \n╚══════════════════════╝\n\nمرحبا، أنا 🪷 *Cola* 🪷، معالجة تدليك محترفة من الفلبين 🇵🇭 أقدم التدليك التايلاندي، السويدي، وتدليك الزيت والحمام المغربي.\n\nHi, I’m 🪷 *Cola* 🪷, a professional massage therapist from 🇵🇭 Philippines offering Thai, Swedish, Oil Massage, and Moroccan Bath. Enjoy a relaxing experience to relieve stress and refresh your body. ✨"
                     },
                     action: {
                         buttons: [
                             { type: "reply", reply: { id: "btn_price", title: "View Services 💰" } },
-                            { type: "reply", reply: { id: "btn_loc", title: "Location 📍" } },
+                            { type: "reply", reply: { id: "btn_loc", title: "Location & Time 📍" } },
                             { type: "reply", reply: { id: "btn_admin", title: "Book Now 📱" } }
                         ]
                     }
                 }
             };
         }
-        // SERVICES / PRICES
+        // SERVICES
         else if (input === "btn_price" || input.includes("price")) {
             responseData = {
                 messaging_product: "whatsapp",
                 to: from,
                 type: "text",
                 text: { 
-                    body: "✨ *OUR PREMIUM SERVICES*\n\n💵 *150 SR* – 450 Minutes\n💆‍♂️ *Thai Massage* (Deep Stretch)\n💆‍♀️ *Swedish Massage* (Stress Relief)\n💧 *Oil Massage* (Body Relax)\n🛁 *Moroccan Bath* (Skin Cleanse)\n\n🌟 *Premium Spa Package – 450 SAR*\n(2h 30m – includes Moroccan bath, hot stone, manicure & pedicure)"
+                    body: "✨ *OUR PREMIUM SERVICES*\n\n💵 *150 SR* – 45 Minutes\n💆‍♂️ *Thai Massage* (Deep Stretch)\n💆‍♀️ *Swedish Massage* (Stress Relief)\n💧 *Oil Massage* (Body Relax)\n🛁 *Moroccan Bath* (Skin Cleanse)\n\n🌟 *Premium Spa Package – 450 SAR*\n(2h 30m – includes Moroccan bath, hot stone, manicure & pedicure)"
                 }
             };
         }
-        // LOCATION WITH CLEAN LINK PREVIEW
+        // LOCATION & TIMING
         else if (input === "btn_loc" || input.includes("location")) {
             responseData = {
                 messaging_product: "whatsapp",
@@ -79,11 +79,11 @@ app.post('/webhook', async (req, res) => {
                 type: "text",
                 text: { 
                     preview_url: true, 
-                    body: "📍 *LOCATION & BOOKING*\n\nVisit our official website to see our location and more details:\n\nhttps://hotcola.net" 
+                    body: "📍 *LOCATION & TIMING*\n\n⏰ *Working Hours:* 11:00 am to 9:00 pm\n\nVisit our website for location details:\nhttps://hotcola.net" 
                 }
             };
         }
-        // BOOK NOW / ADMIN
+        // BOOK NOW
         else if (input === "btn_admin" || input.includes("book")) {
             responseData = {
                 messaging_product: "whatsapp",
@@ -91,7 +91,7 @@ app.post('/webhook', async (req, res) => {
                 type: "text",
                 text: { 
                     preview_url: true,
-                    body: "📲 *BOOK NOW*\n\nClick the link below to chat with our specialist:\nhttps://wa.me/966560958973" 
+                    body: "📲 *BOOK NOW*\n\nClick here to chat with our specialist:\nhttps://wa.me/966560958973" 
                 }
             };
         }
@@ -111,4 +111,4 @@ app.post('/webhook', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`Sweet Cola Sosyal Bot Running` || PORT));
+app.listen(PORT, () => console.log(`Sweet Cola Sosyal Bot Running`));
