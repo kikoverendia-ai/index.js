@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 // --- CONFIGURATION ---
-const PAGE_ACCESS_TOKEN = 'EAAXV2JvH0csBRAc6CX9cn3uqTHdhMpvLRsIXYCZAZAcsmO3SITlFuxoClDm4PVdo7MxXJbvI71ZBjFSc1HZCJ9CMCEZC9q80C0ZCBXgTXRABZCKIPBMrFUiVU5BqsWoSjegLU9gdCb7sAERK79zsyDhvRhTomzNvw6oFYIcZBY9zUZAIXXT9AXDTqQZCYRNvREzDvJdgZDZD';
+const PAGE_ACCESS_TOKEN = 'EAAdDkSxLMVUBRCmhZCvzExHjczkNNEIiHD7xKq6HM1tT5HtQe68ns8aW3b66rLzbJFgZBzlOFlWQ5ZAezJ4OfdAhl57zyO54ZC2Kqv30yFfAvBzjW98pdxaBntWhhIgy2dXZCtRSL59xP34s2T9gKMcUHhQGwNXwNIhPus2NF2x7FZAjjouqOpRQ0TIYZCbz1ZB6sZASbCcl3F6ZCtKIRK';
 const VERIFY_TOKEN = 'Chemico@004';
 
 app.get('/', (req, res) => res.send('Sweet Cola Pasarte Ultimate Final is Live! 🧖‍♂️🇸🇦'));
